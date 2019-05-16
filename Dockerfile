@@ -1,17 +1,17 @@
 FROM php:5.6-apache
 LABEL maintainer=brisaning@gmail.com
 
-RUN apt update
+RUN apt-get update
 
 RUN apt install -y libmemcached-dev zlib1g-dev curl wget \
 libpng-dev libc-client-dev libkrb5-dev libmcrypt-dev \
-zlib1g-dev libicu-dev libpq-dev libxml2-dev zip unzip
+zlib1g-dev libicu-dev libpq-dev libxml2-dev zip unzip libxslt-dev
 
 
 RUN docker-php-ext-install mysqli mysql \
 calendar exif gd bcmath mcrypt \
 pcntl pdo_mysql intl \
-pdo_pgsql pgsql soap sockets zip
+pdo_pgsql pgsql soap sockets zip xsl
 
 RUN docker-php-ext-configure imap --with-kerberos --with-imap-ssl && docker-php-ext-install imap
 
@@ -22,6 +22,8 @@ RUN docker-php-ext-configure imap --with-kerberos --with-imap-ssl && docker-php-
 
 RUN pecl install memcached-2.2.0
 RUN pecl install memcache
+RUN pecl install xdebug-2.5.5
+RUN pecl install apcu-4.0.11
 
 RUN curl -s https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
