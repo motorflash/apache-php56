@@ -41,4 +41,9 @@ RUN chmod a+x /usr/local/bin/symfony
 
 RUN rm -r /var/lib/apt/lists/*
 
+# PDF
+COPY ./wkhtmltox /opt/wkhtmltox/bin
+RUN apt-get update
+RUN apt-get install libfontconfig1 libxrender1 libxext6 -y
+
 WORKDIR /var/www/localhost/htdocs
