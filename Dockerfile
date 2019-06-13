@@ -46,4 +46,14 @@ COPY ./wkhtmltox /opt/wkhtmltox/bin
 RUN apt-get update
 RUN apt-get install libfontconfig1 libxrender1 libxext6 -y
 
+# imagick
+
+RUN apt-get update && apt-get install -y \
+libmagickwand-dev --no-install-recommends \
+&& pecl install imagick
+
+RUN apt-get clean \
+&& apt-get autoclean \
+&& apt-get autoremove
+
 WORKDIR /var/www/localhost/htdocs
