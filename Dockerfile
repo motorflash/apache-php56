@@ -51,6 +51,7 @@ RUN rm -r /var/lib/apt/lists/*
 COPY ./wkhtmltox /opt/wkhtmltox/bin
 RUN apt-get update
 RUN apt-get install libfontconfig1 libxrender1 libxext6 -y
+RUN apt-get install git -y
 
 RUN apt-get clean \
 && apt-get autoclean \
