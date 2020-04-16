@@ -2,27 +2,57 @@ FROM php:5.6-apache
 
 RUN apt-get update && \
     apt install -y \
-    libmemcached-dev zlib1g-dev curl wget \
-    libpng-dev libc-client-dev libkrb5-dev libmcrypt-dev \
-    zlib1g-dev libicu-dev libpq-dev libxml2-dev zip unzip libxslt-dev \
-    freetype* \
-    libmagickwand-dev --no-install-recommends && \
-    pecl install imagick && \
+        libmemcached-dev \
+        zlib1g-dev \
+        git \
+        curl \
+        wget \
+        libpng-dev \
+        libc-client-dev \
+        libkrb5-dev \
+        libmcrypt-dev \
+        zlib1g-dev \
+        libicu-dev \
+        libpq-dev \
+        libxml2-dev \
+        zip \
+        unzip \
+        libxslt-dev \
+        freetype* \
+        libmagickwand-dev --no-install-recommends \
+        libfontconfig1 \
+        libxrender1 \
+        libxext6 && \
     rm -rf /var/lib/apt/lists/*
 
 RUN docker-php-ext-configure gd \
-    --enable-gd-native-ttf \
-    --with-freetype-dir=/usr/include/freetype2 \
-    --with-png-dir=/usr/include \
-    --with-jpeg-dir=/usr/include
+        --enable-gd-native-ttf \
+        --with-freetype-dir=/usr/include/freetype2 \
+        --with-png-dir=/usr/include \
+        --with-jpeg-dir=/usr/include && \
+    docker-php-ext-configure imap \
+        --with-kerberos \
+        --with-imap-ssl && \
+    docker-php-ext-install \
+        gd \
+        imap \
+        mysqli \
+        mysql \
+        calendar \
+        exif \
+        bcmath \
+        mcrypt \
+        pcntl \
+        pdo_mysql \
+        intl \
+        pdo_pgsql \
+        pgsql \
+        soap \
+        sockets \
+        zip \
+        xsl
 
-RUN docker-php-ext-install \
-    mysqli mysql calendar exif gd bcmath mcrypt \
-    pcntl pdo_mysql intl \
-    pdo_pgsql pgsql soap sockets zip xsl
-
-RUN docker-php-ext-configure imap --with-kerberos --with-imap-ssl && docker-php-ext-install imap
-
+RUN pecl install imagick
 RUN pecl install memcached-2.2.0
 # This command fails
 # RUN pecl install memcache
@@ -45,13 +75,5 @@ RUN chmod a+x /usr/local/bin/symfony
 
 # PDF
 COPY ./wkhtmltox /opt/wkhtmltox/bin
-
-RUN apt-get update && \
-    apt-get install libfontconfig1 libxrender1 libxext6 git -y && \
-    rm -rf /var/lib/apt/lists/*
-
-RUN apt-get clean && \
-    apt-get autoclean && \
-    apt-get autoremove
 
 WORKDIR /var/www/localhost/htdocs
