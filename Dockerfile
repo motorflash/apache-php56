@@ -2,10 +2,21 @@ FROM php:5.6-apache
 
 RUN apt-get update && \
     apt install -y \
+        curl \
+        apt-transport-https \
+        ca-certificates \
+        gnupg2
+
+# Install Node repository #
+RUN echo "deb https://deb.nodesource.com/node_10.x stretch main\n\
+deb-src https://deb.nodesource.com/node_10.x stretch main" > /etc/apt/sources.list.d/nodesource.list && \
+    curl -sL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
+
+RUN apt-get update && \
+    apt install -y \
         libmemcached-dev \
         zlib1g-dev \
         git \
-        curl \
         wget \
         libpng-dev \
         libc-client-dev \
@@ -22,14 +33,19 @@ RUN apt-get update && \
         libmagickwand-dev --no-install-recommends \
         libfontconfig1 \
         libxrender1 \
-        libxext6 && \
+        libxext6 \
+        libvpx-dev \
+        nodejs \
+        openssh-server && \
     rm -rf /var/lib/apt/lists/*
 
 RUN docker-php-ext-configure gd \
         --enable-gd-native-ttf \
         --with-freetype-dir=/usr/include/freetype2 \
         --with-png-dir=/usr/include \
-        --with-jpeg-dir=/usr/include && \
+        --with-jpeg-dir=/usr/include \
+        --with-vpx-dir \
+        --with-webp && \
     docker-php-ext-configure imap \
         --with-kerberos \
         --with-imap-ssl && \
