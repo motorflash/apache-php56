@@ -1,5 +1,4 @@
 FROM php:5.6-apache
-LABEL maintainer=brisaning@gmail.com
 
 RUN apt-get update
 
