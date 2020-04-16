@@ -72,8 +72,7 @@ RUN docker-php-ext-configure gd \
 
 RUN pecl install imagick
 RUN pecl install memcached-2.2.0
-# This command fails
-# RUN pecl install memcache
+RUN pecl install memcache-3.0.8
 RUN pecl install xdebug-2.5.5
 RUN pecl install apcu-4.0.11
 
