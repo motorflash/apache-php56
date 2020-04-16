@@ -17,6 +17,8 @@ RUN apt-get update && \
         libmemcached-dev \
         zlib1g-dev \
         git \
+        vim \
+        nano \
         wget \
         libpng-dev \
         libc-client-dev \
