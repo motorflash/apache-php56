@@ -14,6 +14,7 @@ deb-src https://deb.nodesource.com/node_10.x stretch main" > /etc/apt/sources.li
 
 RUN apt-get update && \
     apt install -y \
+        expect \
         libmemcached-dev \
         zlib1g-dev \
         git \
