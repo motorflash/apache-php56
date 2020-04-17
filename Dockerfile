@@ -77,8 +77,7 @@ RUN pecl install memcache-3.0.8
 RUN pecl install xdebug-2.5.5
 RUN pecl install apcu-4.0.11
 
-RUN curl -s https://getcomposer.org/installer | php
-RUN mv composer.phar /usr/local/bin/composer
+COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
 # Recreate user with correct params
 RUN groupmod -g 1000 www-data && \
