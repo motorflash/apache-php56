@@ -81,9 +81,12 @@ RUN pecl install apcu-4.0.11
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
 # Install locale env
-RUN locale-gen es_ES.UTF-8
+RUN touch /etc/locale.gen \
+    && sed -i -e 's/# es_ES.UTF-8 UTF-8/es_ES.UTF-8 UTF-8/' /etc/locale.gen \
+    && locale-gen \
+    && update-locale LC_ALL="es_ES.UTF-8"
 ENV LANG es_ES.UTF-8
-ENV LANGUAGE es_ES:es
+ENV LANGUAGE es_ES:en
 ENV LC_ALL es_ES.UTF-8
 
 # Recreate user with correct params
