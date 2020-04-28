@@ -39,7 +39,8 @@ RUN apt-get update && \
         libxext6 \
         libvpx-dev \
         nodejs \
-        openssh-server && \
+        openssh-server \
+        locales && \
     rm -rf /var/lib/apt/lists/*
 
 RUN docker-php-ext-configure gd \
@@ -78,6 +79,12 @@ RUN pecl install xdebug-2.5.5
 RUN pecl install apcu-4.0.11
 
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
+
+# Install locale env
+RUN locale-gen es_ES.UTF-8
+ENV LANG es_ES.UTF-8
+ENV LANGUAGE es_ES:es
+ENV LC_ALL es_ES.UTF-8
 
 # Recreate user with correct params
 RUN groupmod -g 1000 www-data && \
