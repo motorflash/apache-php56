@@ -40,15 +40,9 @@ RUN apt-get update && \
         libvpx-dev \
         nodejs \
         openssh-server \
+        webp \
         locales && \
     rm -rf /var/lib/apt/lists/*
-
-RUN wget http://www.imagemagick.org/download/ImageMagick-7.0.10-16.tar.gz && \
-    tar xf ImageMagick-7.0.10-16.tar.gz && \
-    cd ImageMagick-7.0.10-16/ && \
-    ./configure --prefix=/usr --with-webp=yes && \
-    make && \
-    make install
 
 RUN docker-php-ext-configure imap \
         --with-kerberos \
@@ -71,6 +65,7 @@ RUN docker-php-ext-configure imap \
         zip \
         xsl
 
+RUN pecl install imagick
 RUN pecl install memcached-2.2.0
 RUN yes|CFLAGS="-fgnu89-inline" pecl install memcache-3.0.8
 RUN pecl install xdebug-2.5.5
