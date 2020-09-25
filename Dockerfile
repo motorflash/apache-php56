@@ -5,7 +5,8 @@ RUN apt-get update && \
         curl \
         apt-transport-https \
         ca-certificates \
-        gnupg2
+        gnupg2 \
+        wget
 
 # Install Node repository #
 RUN echo "deb https://deb.nodesource.com/node_10.x stretch main\n\
@@ -13,9 +14,8 @@ deb-src https://deb.nodesource.com/node_10.x stretch main" > /etc/apt/sources.li
     curl -sL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
 
 # Install Chrome repository
-RUN echo "deb http://dl.google.com/linux/chrome/deb/ stable main\n\
-deb-src http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google.list && \
-    curl -sL https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+    && echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list
 
 RUN mkdir -p /usr/share/man/man1mkdir -p /usr/share/man/man1
 
@@ -27,7 +27,6 @@ RUN apt-get update && \
         git \
         vim \
         nano \
-        wget \
         libpng-dev \
         libc-client-dev \
         libkrb5-dev \
