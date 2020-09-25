@@ -119,7 +119,9 @@ ENV LANG es_ES.UTF-8
 ENV LANGUAGE es_ES:en
 ENV LC_ALL es_ES.UTF-8
 
-# Recreate user with correct params
+# Recreate users with correct params
+RUN groupmod -g 1002 selenium && \
+    usermod -u 1002 selenium
 RUN groupmod -g 1000 www-data && \
     usermod -u 1000 www-data
 
