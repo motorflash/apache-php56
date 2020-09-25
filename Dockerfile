@@ -12,6 +12,13 @@ RUN echo "deb https://deb.nodesource.com/node_10.x stretch main\n\
 deb-src https://deb.nodesource.com/node_10.x stretch main" > /etc/apt/sources.list.d/nodesource.list && \
     curl -sL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
 
+# Install Chrome repository
+RUN echo "deb http://dl.google.com/linux/chrome/deb/ stable main\n\
+deb-src http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google.list && \
+    curl -sL https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+
+RUN mkdir -p /usr/share/man/man1mkdir -p /usr/share/man/man1
+
 RUN apt-get update && \
     apt install -y \
         expect \
@@ -41,8 +48,31 @@ RUN apt-get update && \
         nodejs \
         openssh-server \
         webp \
-        locales && \
+        locales \
+        openjdk-8-jdk \
+        ant \
+        ca-certificates-java \
+        google-chrome-stable && \
     rm -rf /var/lib/apt/lists/*
+
+# Update certificates for OpenJDK-8
+RUN update-ca-certificates -f
+
+# Setup JAVA_HOME
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
+RUN export JAVA_HOME
+
+# Add selenium user
+RUN useradd -ms /bin/bash selenium
+
+# Install selenium and chromedriver
+RUN wget -q -P /home/selenium/ https://selenium-release.storage.googleapis.com/3.141/selenium-server-standalone-3.141.59.jar
+RUN wget -q -P /home/selenium/ https://chromedriver.storage.googleapis.com/85.0.4183.87/chromedriver_linux64.zip
+RUN unzip /home/selenium/chromedriver_linux64.zip -d /home/selenium/
+RUN mv -f /home/selenium/chromedriver /usr/local/share/
+RUN chmod +x /usr/local/share/chromedriver
+RUN ln -s /usr/local/share/chromedriver /usr/local/bin/chromedriver
+RUN ln -s /usr/local/share/chromedriver /usr/bin/chromedriver
 
 RUN docker-php-ext-configure gd \
             --enable-gd-native-ttf \
