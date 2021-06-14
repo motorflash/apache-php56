@@ -125,10 +125,6 @@ RUN groupmod -g 1002 selenium && \
 RUN groupmod -g 1000 www-data && \
     usermod -u 1000 www-data
 
-# Symfony 3
-RUN curl -LsS https://symfony.com/installer -o /usr/local/bin/symfony
-RUN chmod a+x /usr/local/bin/symfony
-
 # PDF
 COPY ./wkhtmltox /opt/wkhtmltox/bin
 
