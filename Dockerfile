@@ -35,6 +35,8 @@ RUN apt-get update && \
         libicu-dev \
         libpq-dev \
         libxml2-dev \
+        iputils-ping \
+        telnet \
         zip \
         unzip \
         libxslt-dev \
