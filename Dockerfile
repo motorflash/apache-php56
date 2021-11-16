@@ -131,3 +131,4 @@ RUN groupmod -g 1000 www-data && \
 COPY ./wkhtmltox /opt/wkhtmltox/bin
 
 WORKDIR /var/www/localhost/htdocs
+
