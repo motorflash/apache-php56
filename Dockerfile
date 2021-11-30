@@ -112,6 +112,12 @@ RUN pecl install apcu-4.0.11
 
 COPY --from=composer:2.1.3 /usr/bin/composer /usr/local/bin/composer
 
+ADD https://letsencrypt.org/certs/isrgrootx1.pem.txt /usr/local/share/ca-certificates/isrgrootx1.pem
+
+RUN cd /usr/local/share/ca-certificates \
+ && openssl x509 -in isrgrootx1.pem -inform PEM -out isrgrootx1.crt \
+ && update-ca-certificates
+
 # Install locale env
 RUN touch /etc/locale.gen \
     && sed -i -e 's/# es_ES.UTF-8 UTF-8/es_ES.UTF-8 UTF-8/' /etc/locale.gen \
