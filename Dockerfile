@@ -110,7 +110,7 @@ RUN yes|CFLAGS="-fgnu89-inline" pecl install memcache-3.0.8
 RUN pecl install xdebug-2.5.5
 RUN pecl install apcu-4.0.11
 
-COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
+COPY --from=composer:2.1.3 /usr/bin/composer /usr/local/bin/composer
 
 # Install locale env
 RUN touch /etc/locale.gen \
