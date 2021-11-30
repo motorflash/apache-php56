@@ -116,6 +116,7 @@ ADD https://letsencrypt.org/certs/isrgrootx1.pem.txt /usr/local/share/ca-certifi
 
 RUN cd /usr/local/share/ca-certificates \
  && openssl x509 -in isrgrootx1.pem -inform PEM -out isrgrootx1.crt \
+ && sed -i '/^mozilla\/DST_Root_CA_X3.crt$/ s/^/!/' /etc/ca-certificates.conf \
  && update-ca-certificates
 
 # Install locale env
