@@ -102,7 +102,8 @@ RUN docker-php-ext-configure gd \
         soap \
         sockets \
         zip \
-        xsl
+        xsl \
+        mailparse
 
 RUN pecl install imagick
 RUN pecl install memcached-2.2.0
